@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group name="Group 20250401-09:20:40">
+            <file>file:/D:/Data_Learning/HK2_nam_5/JDBC_Restaurant/src/GUI/StaffForm.java</file>
+            <file>file:/D:/Data_Learning/HK2_nam_5/JDBC_Restaurant/src/GUI/addStaffForm.java</file>
+            <file>file:/D:/Data_Learning/HK2_nam_5/JDBC_Restaurant/src/GUI/updateStaffFrame.java</file>
+            <file>file:/D:/Data_Learning/HK2_nam_5/JDBC_Restaurant/src/DAL/StaffDAO.java</file>
+            <file>file:/D:/Data_Learning/HK2_nam_5/JDBC_Restaurant/src/BLL/StaffBLL.java</file>
+            <file>file:/D:/Data_Learning/HK2_nam_5/JDBC_Restaurant/src/DTO/StaffDTO.java</file>
+        </group>
+        <group>
+            <file>file:/D:/Java/JDBC_Restaurant/src/DAL/StaffDAO.java</file>
+            <file>file:/D:/Java/JDBC_Restaurant/src/DTO/ItemDTO.java</file>
+            <file>file:/D:/Java/JDBC_Restaurant/src/DTO/ItemTypeDTO.java</file>
+            <file>file:/D:/Java/JDBC_Restaurant/src/DAL/ItemDAL.java</file>
+            <file>file:/D:/Java/JDBC_Restaurant/src/BLL/ItemBLL.java</file>
+            <file>file:/D:/Java/JDBC_Restaurant/src/DAL/ItemTypeDAL.java</file>
+            <file>file:/D:/Java/JDBC_Restaurant/src/BLL/ItemTypeBLL.java</file>
+            <file>file:/D:/Java/JDBC_Restaurant/src/GUI/ItemGUI.java</file>
+            <file>file:/D:/Java/JDBC_Restaurant/src/GUI/TabletopGUI.java</file>
+            <file>file:/D:/Java/JDBC_Restaurant/src/GUI/MainMenuGUI.java</file>
+            <file>file:/D:/Java/JDBC_Restaurant/src/GUI/StaffForm.java</file>
+            <file>file:/D:/Java/JDBC_Restaurant/src/GUI/StaffGUI.java</file>
+        </group>
+    </open-files>
+</project-private>
