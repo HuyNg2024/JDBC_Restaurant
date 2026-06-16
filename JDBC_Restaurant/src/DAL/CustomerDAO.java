@@ -1,155 +1,146 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAL;
 
 import DTO.CustomerDTO;
-import java.util.ArrayList;
+import exceptions.DatabaseException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- *
- * @author PC
- */
-public class CustomerDAO {
-    public ArrayList<CustomerDTO> getAllCustomer(){
-        ArrayList<CustomerDTO> customerList = new ArrayList<>();
-        Connection conn = DBConnect.getConnection();
-        if (conn != null) {
-            String sql = "SELECT * FROM customer";
-            try(PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()){
-                while(rs.next()){
-                    CustomerDTO customer = new CustomerDTO(
-                        rs.getInt("CustomerID"), 
-                        rs.getString("FirstName"), 
-                        rs.getString("LastName"), 
-                        rs.getString("Phone")
-                );
-                customerList.add(customer);
-                }
-            } catch (SQLException e){
-                System.err.println("Loi ket noi co so du lieu" + e.getMessage());
-            }
-            
-        }
-        return customerList;
-    }
-    //CREATE
-    public boolean addCustomer(CustomerDTO customer){
-        Connection conn = DBConnect.getConnection();
-        if(conn != null){
-            try {
-                String sql = "INSERT INTO customer(CustomerID, FirstName, LastName, Phone) VALUES (?, ?, ?, ?)";
-                int rows;
-                try(PreparedStatement stmt = conn.prepareStatement(sql)){
-                    stmt.setInt(1, customer.getCustomerID());
-                    stmt.setString(2, customer.getFirstName());
-                    stmt.setString(3, customer.getLastName());
-                    stmt.setString(4, customer.getPhone());
-                    
-                    rows = stmt.executeUpdate();
-                }
-                conn.close();
-                return rows > 0 ;
-            } catch (SQLException e) {
-                System.out.println("Loi ket noi co so du lieu" + e.getMessage());
-            }
-        }
-        return false;
-    }
-    
-   //UPDATE
-    public boolean updateCustomer(CustomerDTO customer){
-        Connection conn = DBConnect.getConnection();
-        if(conn != null){
-            try
-            {
-                String sql = "UPDATE customer SET FirstName=?, LastName=?, Phone=? WHERE CustomerID=?";
-                int rows;
-                try (PreparedStatement stmt = conn.prepareStatement(sql)){
-                    stmt.setString(1, customer.getFirstName());
-                    stmt.setString(2, customer.getLastName());
-                    stmt.setString(3, customer.getPhone());
-                    stmt.setInt(4, customer.getCustomerID());
-                    rows = stmt.executeUpdate();
-                }
-                conn.close();
-                return rows > 0;
-            }
-            catch(SQLException e){
-                System.out.println(e.getMessage());
-            }
-        }
-        return false;
-    }
-    
-    //  DELETE 
-    public boolean deleteCustomer(int customerID) {
-        Connection conn = DBConnect.getConnection();
-        if (conn != null) {
-            try {
-                String sql = "DELETE FROM customer WHERE CustomerID=?";
-                int rows;
-                try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                    stmt.setInt(1, customerID);
-                    rows = stmt.executeUpdate();
-                }
-                conn.close();
+public class CustomerDAO implements GenericDAO<CustomerDTO> {
 
-                return rows > 0;
-            } catch (SQLException e) {
-                System.out.println("❌ StaffDAO - Lỗi khi xóa: " + e.getMessage());
+    @Override
+    public List<CustomerDTO> getAll() throws DatabaseException {
+        List<CustomerDTO> list = new ArrayList<>();
+        String sql = "SELECT * FROM customer ORDER BY customerID DESC";
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                list.add(mapRow(rs));
             }
-        }
-        return false;
-    }
-    
-    public CustomerDTO getCustomerById(int CustomerID){
-        Connection conn = DBConnect.getConnection();
-        String sql = "SELECT * FROM customer WHERE CustomerID = ?";
-        try{
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, CustomerID);
-            ResultSet rs = ps.executeQuery();
-            
-            if(rs.next()){
-                CustomerDTO customer = new CustomerDTO(
-                        rs.getInt("CustomerID"),
-                        rs.getString("FirstName"),
-                        rs.getString("LastName"),
-                        rs.getString("Phone")
-                );
-                return customer;
-            }
-        } catch(SQLException e){
-            System.out.println(" Lỗi khi lấy nhân viên theo ID: " + e.getMessage());
-        }
-        
-        return null;
-    }
-    
-    public CustomerDTO getCustomerByPhone(String phone) {   
-        Connection conn = DBConnect.getConnection();
-        String sql = "SELECT * FROM customer WHERE Phone = ?";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, phone);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                CustomerDTO customer = new CustomerDTO(
-                    rs.getInt("CustomerID"),
-                    rs.getString("FirstName"),
-                    rs.getString("LastName"),
-                    rs.getString("Phone")
-                );
-                return customer;
-            }
-            
         } catch (SQLException e) {
-            System.out.println("Lỗi khi tìm tài khoản theo username: " + e.getMessage());
+            throw new DatabaseException("Lỗi khi lấy danh sách khách hàng: " + e.getMessage(), e);
+        }
+        return list;
+    }
+
+    @Override
+    public CustomerDTO getById(int id) throws DatabaseException {
+        String sql = "SELECT * FROM customer WHERE customerID = ?";
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return mapRow(rs);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Lỗi khi tìm khách hàng: " + e.getMessage(), e);
         }
         return null;
+    }
+
+    public CustomerDTO getByPhone(String phone) throws DatabaseException {
+        String sql = "SELECT * FROM customer WHERE phone = ?";
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, phone);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return mapRow(rs);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Lỗi khi tìm SĐT khách hàng: " + e.getMessage(), e);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean add(CustomerDTO customer) throws DatabaseException {
+        String sql = "INSERT INTO customer (firstName, lastName, phone, email, address, totalVisits) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, customer.getFirstName());
+            ps.setString(2, customer.getLastName());
+            ps.setString(3, customer.getPhone());
+            ps.setString(4, customer.getEmail());
+            ps.setString(5, customer.getAddress());
+            ps.setInt(6, customer.getTotalVisits());
+            
+            int affected = ps.executeUpdate();
+            if (affected > 0) {
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) customer.setCustomerId(rs.getInt(1));
+                }
+                return true;
+            }
+            return false;
+        } catch (SQLException e) {
+            throw new DatabaseException("Lỗi khi thêm khách hàng: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public boolean update(CustomerDTO customer) throws DatabaseException {
+        String sql = "UPDATE customer SET firstName=?, lastName=?, phone=?, email=?, address=?, totalVisits=? WHERE customerID=?";
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, customer.getFirstName());
+            ps.setString(2, customer.getLastName());
+            ps.setString(3, customer.getPhone());
+            ps.setString(4, customer.getEmail());
+            ps.setString(5, customer.getAddress());
+            ps.setInt(6, customer.getTotalVisits());
+            ps.setInt(7, customer.getCustomerId());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new DatabaseException("Lỗi khi cập nhật khách hàng: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public boolean delete(int id) throws DatabaseException {
+        String sql = "DELETE FROM customer WHERE customerID = ?";
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new DatabaseException("Lỗi khi xóa khách hàng: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public List<CustomerDTO> search(String keyword) throws DatabaseException {
+        List<CustomerDTO> list = new ArrayList<>();
+        String sql = "SELECT * FROM customer WHERE firstName LIKE ? OR lastName LIKE ? OR phone LIKE ?";
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            String kw = "%" + keyword + "%";
+            ps.setString(1, kw);
+            ps.setString(2, kw);
+            ps.setString(3, kw);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) list.add(mapRow(rs));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Lỗi khi tìm kiếm khách hàng: " + e.getMessage(), e);
+        }
+        return list;
+    }
+
+    private CustomerDTO mapRow(ResultSet rs) throws SQLException {
+        CustomerDTO dto = new CustomerDTO(
+            rs.getInt("customerID"),
+            rs.getString("firstName"),
+            rs.getString("lastName"),
+            rs.getString("phone"),
+            rs.getString("email"),
+            rs.getString("address"),
+            rs.getInt("totalVisits")
+        );
+        Timestamp ts = rs.getTimestamp("createdAt");
+        if (ts != null) {
+            dto.setCreatedAt(ts.toLocalDateTime());
+        }
+        return dto;
     }
 }

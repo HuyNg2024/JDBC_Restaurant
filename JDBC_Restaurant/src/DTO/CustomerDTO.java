@@ -1,75 +1,60 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DTO;
 
+import java.time.LocalDateTime;
+
 /**
- *
- * @author PC
+ * Data Transfer Object for Customer entity.
  */
 public class CustomerDTO {
-
-    private int customerID;
+    private int customerId;
     private String firstName;
     private String lastName;
     private String phone;
-    
+    private String email;
+    private String address;
+    private int totalVisits;
+    private LocalDateTime createdAt;
 
-    // Constructors
-    public CustomerDTO() {
-    }
+    public CustomerDTO() {}
 
-    public CustomerDTO(int customerID, String firstName, String lastName, String phone) {
-        this.customerID = customerID;
+    public CustomerDTO(int customerId, String firstName, String lastName, String phone, String email, String address, int totalVisits) {
+        this.customerId = customerId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
-        
+        this.email = email;
+        this.address = address;
+        this.totalVisits = totalVisits;
     }
 
-    // Getters and Setters
-    public int getCustomerID() {
-        return customerID;
-    }
+    public int getCustomerId() { return customerId; }
+    public void setCustomerId(int customerId) { this.customerId = customerId; }
 
-    public void setCustomerID(int customerID) {
-        this.customerID = customerID;
-    }
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    public String getFullName() { return lastName + " " + firstName; }
 
-    public String getLastName() {
-        return lastName;
-    }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getPhone() {
-        return phone;
-    }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+    public int getTotalVisits() { return totalVisits; }
+    public void setTotalVisits(int totalVisits) { this.totalVisits = totalVisits; }
 
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    // toString method (optional)
     @Override
     public String toString() {
-        return "CustomerDTO{" +
-                "customerID=" + customerID +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
+        return getFullName() + " - " + phone;
     }
 }

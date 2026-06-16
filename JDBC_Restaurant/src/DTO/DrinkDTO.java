@@ -1,61 +1,42 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DTO;
 
 /**
- *
- * @author PC
+ * Data Transfer Object for Drink entity.
  */
 public class DrinkDTO {
-
-    private int drinkID;
+    private int drinkId;
     private String drinkName;
     private double drinkPrice;
+    private String category;
+    private String status;
 
-    // Constructors
-    public DrinkDTO() {
-    }
+    public DrinkDTO() {}
 
-    public DrinkDTO(int drinkID, String drinkName, double drinkPrice) {
-        this.drinkID = drinkID;
+    public DrinkDTO(int drinkId, String drinkName, double drinkPrice, String category, String status) {
+        this.drinkId = drinkId;
         this.drinkName = drinkName;
         this.drinkPrice = drinkPrice;
+        this.category = category;
+        this.status = status;
     }
 
-    // Getters and Setters
-    public int getDrinkID() {
-        return drinkID;
-    }
+    public int getDrinkId() { return drinkId; }
+    public void setDrinkId(int drinkId) { this.drinkId = drinkId; }
 
-    public void setDrinkID(int drinkID) {
-        this.drinkID = drinkID;
-    }
+    public String getDrinkName() { return drinkName; }
+    public void setDrinkName(String drinkName) { this.drinkName = drinkName; }
 
-    public String getDrinkName() {
-        return drinkName;
-    }
+    public double getDrinkPrice() { return drinkPrice; }
+    public void setDrinkPrice(double drinkPrice) { this.drinkPrice = drinkPrice; }
 
-    public void setDrinkName(String drinkName) {
-        this.drinkName = drinkName;
-    }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 
-    public double getDrinkPrice() {
-        return drinkPrice;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public void setDrinkPrice(double drinkPrice) {
-        this.drinkPrice = drinkPrice;
-    }
-
-    // toString method (optional)
     @Override
     public String toString() {
-        return "DrinkDTO{" +
-                "drinkID=" + drinkID +
-                ", drinkName='" + drinkName + '\'' +
-                ", drinkPrice=" + drinkPrice +
-                '}';
+        return drinkName;
     }
 }

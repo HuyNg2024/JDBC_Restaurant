@@ -1,99 +1,58 @@
 package DTO;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
+/**
+ * Data Transfer Object for Transaction entity.
+ */
 public class TransactionDTO {
-
-    private int transactionID;
-    private Integer customerID;
-    private String type;
+    private int transactionId;
+    private int orderId;
+    private int customerId;
+    private double amount;
+    private String paymentMethod;
     private String status;
-    private Date createAt;
-    private Integer orderID;
-    private String content;
+    private String note;
+    private LocalDateTime createdAt;
 
-    // Constructors
-    public TransactionDTO() {
-    }
+    public TransactionDTO() {}
 
-    public TransactionDTO(int transactionID, Integer customerID, String type, String status, Date createAt, Integer orderID, String content) {
-        this.transactionID = transactionID;
-        this.customerID = customerID;
-        this.type = type;
+    public TransactionDTO(int transactionId, int orderId, int customerId, double amount, String paymentMethod, String status, String note) {
+        this.transactionId = transactionId;
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.amount = amount;
+        this.paymentMethod = paymentMethod;
         this.status = status;
-        this.createAt = createAt;
-        this.orderID = orderID;
-        this.content = content;
+        this.note = note;
     }
 
-    // Getters and Setters
-    public int getTransactionID() {
-        return transactionID;
-    }
+    public int getTransactionId() { return transactionId; }
+    public void setTransactionId(int transactionId) { this.transactionId = transactionId; }
 
-    public void setTransactionID(int transactionID) {
-        this.transactionID = transactionID;
-    }
+    public int getOrderId() { return orderId; }
+    public void setOrderId(int orderId) { this.orderId = orderId; }
 
-    public Integer getCustomerID() {
-        return customerID;
-    }
+    public int getCustomerId() { return customerId; }
+    public void setCustomerId(int customerId) { this.customerId = customerId; }
 
-    public void setCustomerID(Integer customerID) {
-        this.customerID = customerID;
-    }
+    public double getAmount() { return amount; }
+    public void setAmount(double amount) { this.amount = amount; }
 
-    public String getType() {
-        return type;
-    }
+    public String getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public String getStatus() {
-        return status;
-    }
+    public String getNote() { return note; }
+    public void setNote(String note) { this.note = note; }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    public Date getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
-    }
-
-    public Integer getOrderID() {
-        return orderID;
-    }
-
-    public void setOrderID(Integer orderID) {
-        this.orderID = orderID;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    // toString override
     @Override
     public String toString() {
-        return "TransactionDTO{" +
-                "transactionID=" + transactionID +
-                ", customerID=" + customerID +
-                ", type='" + type + '\'' +
-                ", status='" + status + '\'' +
-                ", createAt=" + createAt +
-                ", orderID=" + orderID +
-                ", content='" + content + '\'' +
-                '}';
+        return "Transaction #" + transactionId;
     }
 }

@@ -1,108 +1,52 @@
 package DTO;
 
+/**
+ * Data Transfer Object for Item entity.
+ */
 public class ItemDTO {
-
-    private int itemID;
+    private int itemId;
     private String itemName;
-    private int staffID;
-    private String itemDetail;
-    private int productMin;
     private double itemPrice;
+    private String itemDetail;
     private int calories;
-    private int itemType;
+    private int typeId;
+    private String status;
 
-    // Constructors
-    public ItemDTO() {
-    }
+    public ItemDTO() {}
 
-    public ItemDTO(int itemID, String itemName, int staffID, String itemDetail, int productMin, double itemPrice, int calories, int itemType) {
-        this.itemID = itemID;
+    public ItemDTO(int itemId, String itemName, double itemPrice, String itemDetail, int calories, int typeId, String status) {
+        this.itemId = itemId;
         this.itemName = itemName;
-        this.staffID = staffID;
-        this.itemDetail = itemDetail;
-        this.productMin = productMin;
         this.itemPrice = itemPrice;
-        this.calories = calories;
-        this.itemType = itemType;
-    }
-
-    // Getters and Setters
-    public int getItemID() {
-        return itemID;
-    }
-
-    public void setItemID(int itemID) {
-        this.itemID = itemID;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public int getStaffID() {
-        return staffID;
-    }
-
-    public void setStaffID(int staffID) {
-        this.staffID = staffID;
-    }
-
-    public String getItemDetail() {
-        return itemDetail;
-    }
-
-    public void setItemDetail(String itemDetail) {
         this.itemDetail = itemDetail;
-    }
-
-    public int getProductMin() {
-        return productMin;
-    }
-
-    public void setProductMin(int productMin) {
-        this.productMin = productMin;
-    }
-
-    public double getItemPrice() {
-        return itemPrice;
-    }
-
-    public void setItemPrice(double itemPrice) {
-        this.itemPrice = itemPrice;
-    }
-
-    public int getCalories() {
-        return calories;
-    }
-
-    public void setCalories(int calories) {
         this.calories = calories;
+        this.typeId = typeId;
+        this.status = status;
     }
 
-    public int getItemType() {
-        return itemType;
-    }
+    public int getItemId() { return itemId; }
+    public void setItemId(int itemId) { this.itemId = itemId; }
 
-    public void setItemType(int itemType) {
-        this.itemType = itemType;
-    }
+    public String getItemName() { return itemName; }
+    public void setItemName(String itemName) { this.itemName = itemName; }
 
-    // toString (optional)
+    public double getItemPrice() { return itemPrice; }
+    public void setItemPrice(double itemPrice) { this.itemPrice = itemPrice; }
+
+    public String getItemDetail() { return itemDetail; }
+    public void setItemDetail(String itemDetail) { this.itemDetail = itemDetail; }
+
+    public int getCalories() { return calories; }
+    public void setCalories(int calories) { this.calories = calories; }
+
+    public int getTypeId() { return typeId; }
+    public void setTypeId(int typeId) { this.typeId = typeId; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
     @Override
     public String toString() {
-        return "ItemDTO{" +
-                "itemID=" + itemID +
-                ", itemName='" + itemName + '\'' +
-                ", staffID=" + staffID +
-                ", itemDetail='" + itemDetail + '\'' +
-                ", productMin=" + productMin +
-                ", itemPrice=" + itemPrice +
-                ", calories=" + calories +
-                ", itemType=" + itemType +
-                '}';
+        return itemName;
     }
 }

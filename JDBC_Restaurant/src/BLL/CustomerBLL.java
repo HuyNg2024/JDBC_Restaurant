@@ -2,42 +2,61 @@ package BLL;
 
 import DAL.CustomerDAO;
 import DTO.CustomerDTO;
-import java.util.ArrayList;
+import exceptions.DatabaseException;
+import exceptions.ValidationException;
+import utils.Validator;
+import java.util.List;
 
 public class CustomerBLL {
-    private CustomerDAO customerDAO;
+    private final CustomerDAO customerDAO = new CustomerDAO();
 
-    public CustomerBLL() {
-        customerDAO = new CustomerDAO();
+    public List<CustomerDTO> getAllCustomers() throws DatabaseException {
+        return customerDAO.getAll();
     }
 
-    // Lấy toàn bộ khách hàng
-    public ArrayList<CustomerDTO> getAllCustomer() {
-        return customerDAO.getAllCustomer();
+    public CustomerDTO getCustomerById(int id) throws DatabaseException {
+        return customerDAO.getById(id);
+    }
+    
+    public CustomerDTO getCustomerByPhone(String phone) throws DatabaseException {
+        return customerDAO.getByPhone(phone);
     }
 
-    // Thêm khách hàng mới
-    public boolean addCustomer(CustomerDTO customer) {
-        return customerDAO.addCustomer(customer);
+    public boolean addCustomer(CustomerDTO customer) throws DatabaseException, ValidationException {
+        validateCustomer(customer, true);
+        return customerDAO.add(customer);
     }
 
-    // Cập nhật thông tin khách hàng
-    public boolean updateCustomer(CustomerDTO customer) {
-        return customerDAO.updateCustomer(customer);
+    public boolean updateCustomer(CustomerDTO customer) throws DatabaseException, ValidationException {
+        validateCustomer(customer, false);
+        return customerDAO.update(customer);
     }
 
-    // Xóa khách hàng theo ID
-    public boolean deleteCustomer(int customerID) {
-        return customerDAO.deleteCustomer(customerID);
+    public boolean deleteCustomer(int id) throws DatabaseException {
+        return customerDAO.delete(id);
     }
 
-    // Lấy khách hàng theo ID
-    public CustomerDTO getCustomerById(int customerID) {
-        return customerDAO.getCustomerById(customerID);
+    public List<CustomerDTO> searchCustomers(String keyword) throws DatabaseException {
+        if (Validator.isNullOrEmpty(keyword)) return getAllCustomers();
+        return customerDAO.search(keyword.trim());
     }
 
-    // Lấy khách hàng theo số điện thoại
-    public CustomerDTO getCustomerByPhone(String phone) {
-        return customerDAO.getCustomerByPhone(phone);
+    private void validateCustomer(CustomerDTO customer, boolean isAdd) throws ValidationException, DatabaseException {
+        Validator.validateRequired(customer.getFirstName(), "Họ");
+        Validator.validateRequired(customer.getLastName(), "Tên");
+        
+        Validator.validatePhone(customer.getPhone(), "Số điện thoại");
+        
+        // Check for duplicate phone number
+        CustomerDTO existing = customerDAO.getByPhone(customer.getPhone());
+        if (existing != null) {
+            if (isAdd || existing.getCustomerId() != customer.getCustomerId()) {
+                throw new ValidationException("Số điện thoại", "Số điện thoại này đã được sử dụng!");
+            }
+        }
+
+        if (!Validator.isNullOrEmpty(customer.getEmail())) {
+            Validator.validateEmail(customer.getEmail(), "Email");
+        }
     }
 }

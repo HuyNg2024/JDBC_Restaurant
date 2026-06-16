@@ -1,78 +1,52 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DTO;
 
 /**
- *
- * @author PC
+ * Data Transfer Object for Account entity.
  */
 public class AccountDTO {
-    private int accountID;
+    private int accountId;
     private String username;
     private String password;
+    private String salt;
     private String role;
-    private int staffID;
+    private int staffId;
+    private String status;
 
-    // Constructor
-    public AccountDTO(int accountID, String username,String password, String role, int staffID) {
-        this.accountID = accountID;
+    public AccountDTO() {}
+
+    public AccountDTO(int accountId, String username, String password, String salt, String role, int staffId, String status) {
+        this.accountId = accountId;
         this.username = username;
         this.password = password;
+        this.salt = salt;
         this.role = role;
-        this.staffID = staffID;
+        this.staffId = staffId;
+        this.status = status;
     }
 
-    // Getters and Setters
-    public int getAccountID() {
-        return accountID;
-    }
+    public int getAccountId() { return accountId; }
+    public void setAccountId(int accountId) { this.accountId = accountId; }
 
-    public void setAccountID(int accountID) {
-        this.accountID = accountID;
-    }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
 
-    public String getUsername() {
-        return username;
-    }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    
-    public String getPassword() {
-        return password;
-    }
+    public String getSalt() { return salt; }
+    public void setSalt(String salt) { this.salt = salt; }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 
-    public String getRole() {
-        return role;
-    }
+    public int getStaffId() { return staffId; }
+    public void setStaffId(int staffId) { this.staffId = staffId; }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public int getStaffID() {
-        return staffID;
-    }
-
-    public void setStaffID(int staffID) {
-        this.staffID = staffID;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
     @Override
     public String toString() {
-        return "AccountDTO{" +
-                "accountID=" + accountID +
-                ", username='" + username + '\'' +
-                ", role='" + role + '\'' +
-                ", staffID=" + staffID +
-                '}';
+        return username + " [" + role + "]";
     }
 }
-

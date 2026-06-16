@@ -1,86 +1,42 @@
 package DTO;
 
+/**
+ * Data Transfer Object for Tabletop entity.
+ */
 public class TabletopDTO {
-
-    private int tableID;
-    private Integer customerID;
+    private int tableId;
     private String tableCode;
+    private int capacity;
     private String status;
-    private Integer capacity;
-    private Integer current;
+    private int floor;
 
-    // Constructors
-    public TabletopDTO() {
-    }
+    public TabletopDTO() {}
 
-    public TabletopDTO(int tableID, Integer customerID, String tableCode, String status, Integer capacity, Integer current) {
-        this.tableID = tableID;
-        this.customerID = customerID;
+    public TabletopDTO(int tableId, String tableCode, int capacity, String status, int floor) {
+        this.tableId = tableId;
         this.tableCode = tableCode;
-        this.status = status;
         this.capacity = capacity;
-        this.current = current;
-    }
-
-    // Getters and Setters
-    public int getTableID() {
-        return tableID;
-    }
-
-    public void setTableID(int tableID) {
-        this.tableID = tableID;
-    }
-
-    public Integer getCustomerID() {
-        return customerID;
-    }
-
-    public void setCustomerID(Integer customerID) {
-        this.customerID = customerID;
-    }
-
-    public String getTableCode() {
-        return tableCode;
-    }
-
-    public void setTableCode(String tableCode) {
-        this.tableCode = tableCode;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
         this.status = status;
+        this.floor = floor;
     }
 
-    public Integer getCapacity() {
-        return capacity;
-    }
+    public int getTableId() { return tableId; }
+    public void setTableId(int tableId) { this.tableId = tableId; }
 
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
-    }
+    public String getTableCode() { return tableCode; }
+    public void setTableCode(String tableCode) { this.tableCode = tableCode; }
 
-    public Integer getCurrent() {
-        return current;
-    }
+    public int getCapacity() { return capacity; }
+    public void setCapacity(int capacity) { this.capacity = capacity; }
 
-    public void setCurrent(Integer current) {
-        this.current = current;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    // toString override
+    public int getFloor() { return floor; }
+    public void setFloor(int floor) { this.floor = floor; }
+
     @Override
     public String toString() {
-        return "TabletopDTO{" +
-                "tableID=" + tableID +
-                ", customerID=" + customerID +
-                ", tableCode='" + tableCode + '\'' +
-                ", status='" + status + '\'' +
-                ", capacity=" + capacity +
-                ", current=" + current +
-                '}';
+        return tableCode + " (" + capacity + " người)";
     }
 }

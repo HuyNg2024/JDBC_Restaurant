@@ -1,53 +1,42 @@
 package DTO;
 
+/**
+ * Data Transfer Object for OrderItem entity.
+ */
 public class OrderItemDTO {
-
-    private int orderID;
-    private int itemID;
+    private int orderId;
+    private int itemId;
+    private String itemName;
     private int quantity;
+    private double unitPrice;
 
-    // Constructors
-    public OrderItemDTO() {
-    }
+    public OrderItemDTO() {}
 
-    public OrderItemDTO(int orderID, int itemID, int quantity) {
-        this.orderID = orderID;
-        this.itemID = itemID;
+    public OrderItemDTO(int orderId, int itemId, String itemName, int quantity, double unitPrice) {
+        this.orderId = orderId;
+        this.itemId = itemId;
+        this.itemName = itemName;
         this.quantity = quantity;
+        this.unitPrice = unitPrice;
     }
 
-    // Getters and Setters
-    public int getOrderID() {
-        return orderID;
-    }
+    public int getOrderId() { return orderId; }
+    public void setOrderId(int orderId) { this.orderId = orderId; }
 
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
-    }
+    public int getItemId() { return itemId; }
+    public void setItemId(int itemId) { this.itemId = itemId; }
 
-    public int getItemID() {
-        return itemID;
-    }
+    public String getItemName() { return itemName; }
+    public void setItemName(String itemName) { this.itemName = itemName; }
 
-    public void setItemID(int itemID) {
-        this.itemID = itemID;
-    }
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
 
-    public int getQuantity() {
-        return quantity;
-    }
+    public double getUnitPrice() { return unitPrice; }
+    public void setUnitPrice(double unitPrice) { this.unitPrice = unitPrice; }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    // toString override
     @Override
     public String toString() {
-        return "OrderItemDTO{" +
-                "orderID=" + orderID +
-                ", itemID=" + itemID +
-                ", quantity=" + quantity +
-                '}';
+        return itemName + " x" + quantity;
     }
 }

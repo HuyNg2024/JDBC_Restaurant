@@ -1,37 +1,62 @@
 package DAL;
 
+import config.AppConfig;
+import exceptions.DatabaseException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Database connection manager.
+ * Uses AppConfig to get external credentials.
+ */
 public class DBConnect {
-    private static final String URL = "jdbc:mysql://localhost:3306/restaurantmanage";
-    private static final String USER = "root";
-    private static final String PASSWORD = "12345";
 
-    public static Connection getConnection() {
+    /**
+     * Get a connection to the database.
+     * @return Connection object
+     * @throws DatabaseException if connection fails
+     */
+    public static Connection getConnection() throws DatabaseException {
+        AppConfig config = AppConfig.getInstance();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
-            
-            System.out.println(" DBConnect - Lỗi SQL: " + e.getMessage());
-            
-            return null;
+            Class.forName(config.getDbDriver());
+            return DriverManager.getConnection(
+                config.getDbUrl(), 
+                config.getDbUser(), 
+                config.getDbPassword()
+            );
         } catch (ClassNotFoundException e) {
-            
-            System.out.println(" DBConnect - Lỗi bất thường: " + e.getMessage());
-            return null;
+            throw new DatabaseException("Không tìm thấy MySQL Driver: " + e.getMessage(), e);
+        } catch (SQLException e) {
+            throw new DatabaseException("Không thể kết nối đến cơ sở dữ liệu. Vui lòng kiểm tra config.properties.\nLỗi: " + e.getMessage(), e);
         }
     }
-    
-//    public static void main(String[] args) {
-//        Connection conn = DBConnect.getConnection();
-//
-//        if (conn != null) {
-//            System.out.println(" Kết nối cơ sở dữ liệu thành công!");
-//        } else {
-//            System.out.println(" Kết nối cơ sở dữ liệu thất bại!");
-//        }
-//    }
+
+    /**
+     * Utility to safely close database resources.
+     */
+    public static void closeQuietly(AutoCloseable... resources) {
+        for (AutoCloseable resource : resources) {
+            if (resource != null) {
+                try {
+                    resource.close();
+                } catch (Exception ignored) {
+                    // Ignore close exceptions
+                }
+            }
+        }
+    }
+
+    /**
+     * Test the database connection.
+     * @return true if successful, false otherwise
+     */
+    public static boolean testConnection() {
+        try (Connection conn = getConnection()) {
+            return conn != null && !conn.isClosed();
+        } catch (DatabaseException | SQLException e) {
+            return false;
+        }
+    }
 }
