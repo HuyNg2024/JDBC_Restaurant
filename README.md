@@ -2,6 +2,8 @@
   🍽️ Premium Restaurant POS System
 </h1>
 
+*Read this in other languages: [English](README_en.md), [Tiếng Việt](README.md).*
+
 <p align="center">
   <img src="https://img.shields.io/badge/Java-11%2B-blue?style=for-the-badge&logo=java" alt="Java Version">
   <img src="https://img.shields.io/badge/MySQL-8.0-orange?style=for-the-badge&logo=mysql" alt="MySQL">
