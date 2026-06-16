@@ -147,7 +147,13 @@ public class Login extends JFrame {
     }
 
     public static void main(String[] args) {
-        // Entry point for direct testing
+        // Apply FlatLaf Look and Feel
+        try {
+            javax.swing.UIManager.setLookAndFeel(new com.formdev.flatlaf.themes.FlatMacDarkLaf());
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize LaF");
+        }
+        
         AppTheme.applyTheme();
         java.awt.EventQueue.invokeLater(() -> {
             new SplashScreen().showSplashAndLoad();

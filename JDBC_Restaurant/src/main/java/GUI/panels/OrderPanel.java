@@ -199,7 +199,7 @@ public class OrderPanel extends JPanel {
                 return;
             }
             
-            String[] methods = {"Tiền mặt (Cash)", "Thẻ (Card)", "Chuyển khoản (Transfer)"};
+            String[] methods = {"Tiền mặt (Cash)", "Thẻ (Card)", "Chuyển khoản (VietQR)"};
             int choice = JOptionPane.showOptionDialog(this,
                     "Chọn phương thức thanh toán cho đơn hàng #" + id + "\nTổng tiền: " + CurrencyFormatter.formatVND(order.getTotalPrice()),
                     "Thanh toán",
@@ -207,6 +207,35 @@ public class OrderPanel extends JPanel {
                     
             if (choice >= 0) {
                 String method = choice == 0 ? "cash" : choice == 1 ? "card" : "transfer";
+                
+                // --- VIETQR INTEGRATION ---
+                if ("transfer".equals(method)) {
+                    // Generate VietQR URL: Bank ID (e.g. MB Bank = 970422), Account No, Amount, Info
+                    String bankId = "970422"; // MB Bank bin code
+                    String accountNo = "0123456789"; // Dummy account
+                    String accountName = "NHA HANG CAO CAP";
+                    long amount = Math.round(order.getTotalPrice());
+                    String info = "Thanh toan don " + id;
+                    
+                    // VietQR standard format URL
+                    String qrUrl = String.format("https://img.vietqr.io/image/%s-%s-compact2.png?amount=%d&addInfo=%s&accountName=%s", 
+                            bankId, accountNo, amount, java.net.URLEncoder.encode(info, "UTF-8"), java.net.URLEncoder.encode(accountName, "UTF-8"));
+                    
+                    try {
+                        java.net.URL url = new java.net.URL(qrUrl);
+                        java.awt.Image image = javax.imageio.ImageIO.read(url);
+                        javax.swing.ImageIcon icon = new javax.swing.ImageIcon(image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH));
+                        
+                        JOptionPane.showMessageDialog(this, 
+                            "Vui lòng đưa khách hàng quét mã QR bên dưới để thanh toán:\nSố tiền: " + CurrencyFormatter.formatVND(amount), 
+                            "Thanh toán VietQR", 
+                            JOptionPane.INFORMATION_MESSAGE, 
+                            icon);
+                    } catch (Exception ex) {
+                        ToastNotification.showToast(SwingUtilities.getWindowAncestor(this), "Không thể tải mã QR, vui lòng kiểm tra mạng!", ToastNotification.Type.ERROR);
+                        return; // Halt payment if QR fails
+                    }
+                }
                 
                 // Create Transaction
                 TransactionDTO trans = new TransactionDTO();

@@ -1,15 +1,36 @@
 package DTO;
 
+import javax.persistence.*;
+
 /**
- * Data Transfer Object for Account entity.
+ * Data Transfer Object for Account
+ * Now migrated to Hibernate Entity
  */
+@Entity
+@Table(name = "account")
 public class AccountDTO {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "accountID")
     private int accountId;
+    
+    @Column(name = "username", nullable = false, unique = true, length = 50)
     private String username;
+    
+    @Column(name = "password", nullable = false, length = 128)
     private String password;
+    
+    @Column(name = "salt", nullable = false, length = 64)
     private String salt;
+    
+    @Column(name = "role", columnDefinition = "ENUM('manager','staff') DEFAULT 'staff'")
     private String role;
+    
+    @Column(name = "staffID")
     private int staffId;
+    
+    @Column(name = "status", columnDefinition = "ENUM('active','inactive') DEFAULT 'active'")
     private String status;
 
     public AccountDTO() {}
